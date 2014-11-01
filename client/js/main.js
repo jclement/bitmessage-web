@@ -62,7 +62,6 @@ app.run(function($rootScope, authentication, $location, $route) {
 
     var authResolver = {
         auth: function($q, $timeout, authentication) {
-            console.log('auth resolver');
             var deferred = $q.defer();
             authentication.init().then(function() {
                 if (checkAccessToRoute($route.current)) {
@@ -102,7 +101,6 @@ app.controller('bitmessageController', function (authentication, $q, $http, $int
     $scope.messages = [];
 
     var refresh = function () {
-        console.log('refresh start')
         var deferred = $q.defer();
         if (authentication.isAuthenticated()) {
             $http.post('api/bm/messages/inbox/list', {token: authentication.getToken()})
@@ -111,8 +109,6 @@ app.controller('bitmessageController', function (authentication, $q, $http, $int
                         message.receivedTime = Date.parse(message.receivedTime);
                     });
                     $scope.messages = data;
-                    console.log('refresh done')
-
                     deferred.resolve();
                 });
         } else {
