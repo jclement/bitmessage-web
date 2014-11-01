@@ -1,4 +1,4 @@
-var app = angular.module('bitmessageApp', ['authentication','messages','ngRoute','ngNotify','LocalStorageModule']);
+var app = angular.module('bitmessageApp', ['authentication','ngRoute','ngNotify','LocalStorageModule']);
 
 app.filter('trim', function() {
    return function(input) {
@@ -16,6 +16,14 @@ app.config(function ($routeProvider) {
         controller: 'AboutController',
         templateUrl: 'partials/about.html',
         public: true // pages are secure by default.  public pages can be tagged in this way.
+    });
+    $routeProvider.when('/compose', {
+        controller: 'ComposeController',
+        templateUrl: 'partials/compose.html'
+    });
+    $routeProvider.when('/view/:msgid', {
+        controller: 'ViewController',
+        templateUrl: 'partials/view.html'
     });
     $routeProvider.when('/inbox', {
         controller: 'InboxController',
@@ -54,13 +62,14 @@ app.run(function($rootScope, authentication, $location, $route) {
 
     var authResolver = {
         auth: function($q, $timeout, authentication) {
+            console.log('auth resolver');
             var deferred = $q.defer();
             authentication.init().then(function() {
                 if (checkAccessToRoute($route.current)) {
                     // if user ends up linking to login page and they are authenticated, redirect them to default page
                     if (authentication.isAuthenticated() && $route.current.loginPage) {
                         $timeout(function() {
-                            $location.path('/');
+                            $location.path('#/index');
                         });
                     }
                     deferred.resolve();
@@ -88,7 +97,32 @@ app.run(function($rootScope, authentication, $location, $route) {
 
 });
 
-app.controller('bitmessageController', function (authentication, messages, $scope) {
+app.controller('bitmessageController', function (authentication, $q, $http, $interval, $scope) {
+
+    $scope.messages = [];
+
+    var refresh = function () {
+        console.log('refresh start')
+        var deferred = $q.defer();
+        if (authentication.isAuthenticated()) {
+            $http.post('api/bm/messages/inbox/list', {token: authentication.getToken()})
+                .success(function (data) {
+                    _.each(data, function (message) {
+                        message.receivedTime = Date.parse(message.receivedTime);
+                    });
+                    $scope.messages = data;
+                    console.log('refresh done')
+
+                    deferred.resolve();
+                });
+        } else {
+            deferred.resolve();
+        }
+        return deferred.promise;
+    };
+
+    authentication.onStateChange(refresh);
+    $interval(refresh, 5000);
 
     $scope.isAuthenticated = function() {
         return authentication.isAuthenticated();
@@ -98,7 +132,9 @@ app.controller('bitmessageController', function (authentication, messages, $scop
         return authentication.getUsername();
     };
 
-    $scope.unreadCount = messages.unreadCount;
+    $scope.unreadCount = function() {
+        return _.filter($scope.messages, function(m){ return m.read === 0;}).length;
+    };
 
     $scope.logout = function() {
         authentication.logout();

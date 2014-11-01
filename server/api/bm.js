@@ -13,26 +13,31 @@ router.use(session.enforce_valid_token);
 router.post('/messages/inbox/list', function(req, res) {
    bm.messages.inbox.list(function(value) {
        res.json(value);
-   })
+   });
 });
 
 router.post('/messages/inbox/delete', function(req, res) {
     bm.messages.inbox.moveToTrash(req.body.id, function(value) {
-        console.dir(value);
         res.json(value);
-    })
+    });
+});
+
+router.post('/messages/inbox/read', function(req, res) {
+    bm.messages.inbox.single(req.body.id, function(value) {
+        res.json(value);
+    }, true);
 });
 
 router.post('/addresses/list', function(req, res) {
     bm.addresses.list(function(value) {
         res.json(value);
-    })
+    });
 });
 
 router.post('/addressbook/list', function(req, res) {
     bm.addressbook.list(function(value) {
         res.json(value);
-    })
+    });
 });
 
 module.exports = router;

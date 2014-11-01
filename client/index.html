@@ -40,10 +40,10 @@
                 <li><a href="#/compose" ng-show="isAuthenticated()" title="Inbox"><span
                         class="glyphicon glyphicon-send"></span></a>
                 </li>
-                <li><a href="#/addressBook" ng-show="isAuthenticated()"><span
+                <li><a href="#/addressBook" ng-show="isAuthenticated()" title="Address Book"><span
                         class="glyphicon glyphicon-book"></span></a>
                 </li>
-                <li><a href="#/identities" ng-show="isAuthenticated()"><span
+                <li><a href="#/identities" ng-show="isAuthenticated()" title="Manage Identities"><span
                         class="glyphicon glyphicon-user"></span></a>
                 </li>
             </ul>
@@ -55,7 +55,7 @@
     </div>
 </div>
 
-<div ng-view/>
+<div class="container" ng-view/>
 
 </div>
 
@@ -68,11 +68,12 @@
 <script src="lib/angular-local-storage/dist/angular-local-storage.min.js"></script>
 <script src="js/services/ngNotify.js"></script>
 <script src="js/services/authentication.js"></script>
-<script src="js/services/messages.js"></script>
 <script src="js/main.js"></script>
+<script src="js/controllers/ComposeController.js"></script>
 <script src="js/controllers/AddressBookController.js"></script>
 <script src="js/controllers/LoginController.js"></script>
 <script src="js/controllers/IdentitiesController.js"></script>
 <script src="js/controllers/InboxController.js"></script>
+<script src="js/controllers/ViewController.js"></script>
 </body>
 </html>

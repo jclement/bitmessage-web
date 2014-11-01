@@ -1,24 +1,24 @@
 <div class="btn-block well well-sm" style="padding-bottom:10px">
-    <button class="btn btn-xs btn-default" ng-click="ctrl.closeMessage()" style="margin-right:10px">&lt;&lt; Back</button>
-    <button class="btn btn-xs btn-primary" ng-click="ctrl.replyMessage()">Reply</button>
-    <button class="btn btn-xs btn-danger pull-right" ng-click="ctrl.deleteMessage()">Delete</button>
+    <a class="btn btn-xs btn-default" href="#/" style="margin-right:10px">&lt;&lt; Back</a>
+    <button class="btn btn-xs btn-primary" ng-click="replyMessage()">Reply</button>
+    <button class="btn btn-xs btn-danger pull-right" ng-click="deleteMessage()">Delete</button>
 </div>
 <table>
     <tr>
         <th>From:</th>
-        <td>{{ctrl.lookup(ctrl.message.fromAddress)}}</td>
+        <td>{{message.fromAddress}}</td>
     </tr>
     <tr>
         <th>To:</th>
-        <td>{{ctrl.lookup(ctrl.message.toAddress)}}</td>
+        <td>{{message.toAddress}}</td>
     </tr>
     <tr>
         <th>Received Time:&nbsp;</th>
-        <td>{{ctrl.message.receivedTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+        <td>{{message.receivedTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
     </tr>
     <tr>
         <th>Subject:</th>
-        <td>{{ctrl.message.subject}}</td>
+        <td>{{message.subject}}</td>
     </tr>
 </table>
-<pre style="margin-top: 10px">{{ctrl.message.message}}</pre>
+<pre style="margin-top: 10px">{{message.message}}</pre>

@@ -1,7 +1,7 @@
 <h1>Inbox</h1>
 
-<div class="alert alert-info" ng-show="messages().length === 0">No messages in Inbox</div>
-<table class="table table-condensed table-striped" ng-show="messages().length > 0">
+<div class="alert alert-info" ng-show="messages.length === 0">No messages in Inbox</div>
+<table class="table table-condensed table-striped" ng-show="messages.length > 0">
     <thead>
     <tr>
         <th>&nbsp;</th>
@@ -12,10 +12,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="message in messages() | orderBy: receivedTime : reverse"
+    <tr ng-repeat="message in messages | orderBy: receivedTime : reverse"
         ng-class="{'info':message.read === 0}">
         <td>
-            <button class="btn btn-xs btn-primary" ng-click="openMessage(message)">Open</button>
+            <a href="#/view/{{message.msgid}}" class="btn btn-xs btn-primary" ng-click="openMessage(message)">Open</a>
         </td>
         <td>{{message.subject}}</td>
         <td>{{lookup(message.fromAddress)}}</td>

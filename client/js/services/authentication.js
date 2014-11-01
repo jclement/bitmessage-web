@@ -3,12 +3,12 @@ angular.module('authentication', ['LocalStorageModule'])
         var state = null;
         var listeners = [];
 
-        var setState = function(newState) {
-            state = newState;
-            localStorageService.set('auth', newState);
+        var notifyState = function() {
+            var promises = [];
             _.each(listeners, function(listener) {
-                listener(!!state);
-            })
+                promises.push(listener());
+            });
+            return $q.all(promises);
         };
 
         return {
@@ -20,9 +20,11 @@ angular.module('authentication', ['LocalStorageModule'])
                     $http.post('api/auth/verify', {token: savedToken.token})
                         .success(function (data) {
                             if (data.status) {
-                                setState(savedToken);
+                                state = savedToken;
                             }
-                            deferred.resolve();
+                            notifyState().then(function() {
+                                deferred.resolve();
+                            });
                         })
                 } else {
                     deferred.resolve();
@@ -52,11 +54,14 @@ angular.module('authentication', ['LocalStorageModule'])
                 })
                     .success(function (data) {
                         if (data.status) {
-                            setState({
+                            state = {
                                 token: data.token,
                                 username: username
+                            };
+                            localStorageService.set('auth', state);
+                            notifyState().then(function() {
+                                deferred.resolve();
                             });
-                            deferred.resolve();
                         } else {
                             deferred.reject(data.message);
                         }
@@ -64,7 +69,13 @@ angular.module('authentication', ['LocalStorageModule'])
                 return deferred.promise;
             },
             logout: function() {
-                setState(null);
+                var deferred = $q.defer();
+                state = null;
+                localStorageService.remove('auth');
+                notifyState().then(function() {
+                    deferred.resolve();
+                });
+                return deferred.promise;
             }
         };
     });
