@@ -10,16 +10,16 @@
     <link rel="apple-touch-icon" sizes="152,152" href="images/touch-icon-ipad-retina.png">
     <link rel="icon" href="favicon.ico">
 
-    <title>GarageberryPi</title>
+    <title>bitmessage-web</title>
 
-    <!-- <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="css/main.css" rel="stylesheet">
-  </head>
+</head>
 
-<body ng-app="bitmessageApp" ng-controller="bitmessageController as ctrl" ng-cloak>
+<body ng-app="bitmessageApp" ng-controller="bitmessageController" ng-cloak>
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
     <div class="container">
@@ -31,82 +31,31 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#">Bitmessage
-                <span class="badge" ng-show="ctrl.unreadCount()">
-                {{ctrl.unreadCount()}}
+                <span class="badge" ng-show="unreadCount()">
+                {{unreadCount()}}
                 </span></a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="#" ng-click="ctrl.composet()" ng-show="ctrl.isAuthenticated()">New Message</a>
+                <li><a href="#/compose" ng-show="isAuthenticated()" title="Inbox"><span
+                        class="glyphicon glyphicon-send"></span></a>
+                </li>
+                <li><a href="#/addressBook" ng-show="isAuthenticated()"><span
+                        class="glyphicon glyphicon-book"></span></a>
+                </li>
+                <li><a href="#/identities" ng-show="isAuthenticated()"><span
+                        class="glyphicon glyphicon-user"></span></a>
                 </li>
             </ul>
             <ul class="nav navbar-nav pull-right">
-                <li><a href="#" ng-click="ctrl.logout()" ng-show="ctrl.isAuthenticated()">Logout ({{ctrl.user()}})</a>
+                <li><a href="#" ng-click="logout()" ng-show="isAuthenticated()">Logout ({{getUsername()}})</a>
                 </li>
             </ul>
         </div>
     </div>
 </div>
 
-<div class="container" ng-hide="ctrl.initialized">
-  <div class="alert alert-info">Loading...</div>
-</div>
-<div class="container" ng-show="ctrl.initialized">
-
-    <div class="panel panel-primary" ng-hide="ctrl.isAuthenticated()">
-        <div class="panel-heading">
-            <h3 class="panel-title">Authenticate Yourself Human!</h3>
-        </div>
-        <div class="panel-body">
-            <div class="alert alert-danger" ng-show="ctrl.loginError">{{ctrl.loginError}}</div>
-            <form name="loginForm" class="form form-horizontal" ng-submit="loginForm.$valid && ctrl.login()">
-                <div class="form-group">
-                    <label for="username" class="col-sm-2 control-label">Username</label>
-
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" placeholder="Username" id="username"
-                               ng-model="ctrl.loginForm.username" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="password" class="col-sm-2 control-label">Password</label>
-
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" placeholder="Password" id="password"
-                               ng-model="ctrl.loginForm.password" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-default">Sign in</button>
-                    </div>
-                </div>
-
-            </form>
-        </div>
-    </div>
-
-    <div ng-show="ctrl.isAuthenticated()" ng-show="ctrl.state">
-        <table class="table table-condensed table-striped">
-            <thead>
-            <tr><th>&nbsp;</th><th>Subject</th><th>From</th><th>To</th><th>Received Time</th><th>&nbsp;</th></tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="message in ctrl.messages | orderBy: receivedTime : reverse" ng-class="{'info':message.read === 0}">
-                <td>
-                    <button class="btn btn-xs btn-primary">Open</button>
-                </td>
-                <td>{{message.subject}}</td>
-                <td>{{ctrl.lookup(message.fromAddress)}}</td>
-                <td>{{ctrl.lookup(message.toAddress)}}</td>
-                <td>{{message.receivedTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-                <td align="right">
-                    <button class="btn btn-xs btn-danger" ng-click="ctrl.deleteMessage(message)">Remove</button>
-                </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<div ng-view/>
 
 </div>
 
@@ -114,9 +63,16 @@
 <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="lib/underscore/underscore.js"></script>
 <script src="lib/angular/angular.min.js"></script>
+<script src="lib/angular-route/angular-route.min.js"></script>
 <script src="lib/noty/js/noty/packaged/jquery.noty.packaged.min.js"></script>
 <script src="lib/angular-local-storage/dist/angular-local-storage.min.js"></script>
 <script src="js/services/ngNotify.js"></script>
+<script src="js/services/authentication.js"></script>
+<script src="js/services/messages.js"></script>
 <script src="js/main.js"></script>
+<script src="js/controllers/AddressBookController.js"></script>
+<script src="js/controllers/LoginController.js"></script>
+<script src="js/controllers/IdentitiesController.js"></script>
+<script src="js/controllers/InboxController.js"></script>
 </body>
 </html>

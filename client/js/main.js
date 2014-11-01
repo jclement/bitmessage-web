@@ -1,128 +1,106 @@
-var app = angular.module('bitmessageApp', ['ngNotify','LocalStorageModule']);
+var app = angular.module('bitmessageApp', ['authentication','messages','ngRoute','ngNotify','LocalStorageModule']);
+
+app.filter('trim', function() {
+   return function(input) {
+       return (input || '').trim();
+   };
+});
+
+app.config(function ($routeProvider) {
+    $routeProvider.when('/login', {
+        controller: 'LoginController',
+        templateUrl: 'partials/login.html',
+        loginPage: true  // login page is special, un-authorized users are redirected here when accessing secure pages
+    });
+    $routeProvider.when('/about', {
+        controller: 'AboutController',
+        templateUrl: 'partials/about.html',
+        public: true // pages are secure by default.  public pages can be tagged in this way.
+    });
+    $routeProvider.when('/inbox', {
+        controller: 'InboxController',
+        templateUrl: 'partials/inbox.html'
+    });
+    $routeProvider.when('/addressBook', {
+        controller: 'AddressBookController',
+        templateUrl: 'partials/addressbook.html'
+    });
+    $routeProvider.when('/identities', {
+        controller: 'IdentitiesController',
+        templateUrl: 'partials/identities.html'
+    });
+    $routeProvider.otherwise({redirectTo: "/inbox"});
+
+});
 
 app.config(['localStorageServiceProvider', function (localStorageServiceProvider) {
     localStorageServiceProvider.setPrefix("bm");
 }]);
 
-app.controller('bitmessageController', function ($notify, $http, $timeout, $interval, localStorageService) {
+app.run(function($rootScope, authentication, $location, $route) {
 
-    var ctrl = this;
+    // placeholder for path to login page, discovered below when adding authResolver to routes
+    var loginPage = null;
 
-    /* ====== AUTHENTICATION =============================================== */
-
-    var auth = null;
-
-    (function () {
-        ctrl.initialized = false;
-        // if we have pre-existing token, verify it to see if it's still good.
-        var savedToken = localStorageService.get('auth');
-        if (savedToken) {
-            $http.post('api/auth/verify', {token: savedToken.token})
-                .success(function (data) {
-                    if (data.status) {
-                        auth = savedToken;
-                    }
-                    ctrl.initialized = true;
-                    refresh();
-                })
-        } else {
-            ctrl.initialized = true;
+    var checkAccessToRoute = function(route) {
+        // always allow access to login page
+        if (route.loginPage) {
+            return true;
         }
-    })();
+        // allow access to authenticated users or public pages
+        return !!(authentication.isAuthenticated() || (route.public));
 
-    ctrl.loginForm = {};
-    ctrl.loginError = null;
-
-    ctrl.user = function () {
-        return auth && auth.username;
     };
 
-    ctrl.isAuthenticated = function () {
-        return !!auth;
-    };
-
-    ctrl.login = function () {
-        ctrl.loginError = null;
-        $http.post('api/auth/login', ctrl.loginForm)
-            .success(function (data) {
-                if (data.status) {
-                    auth = {
-                        token: data.token,
-                        username: ctrl.loginForm.username
-                    };
-                    localStorageService.set('auth', auth);
+    var authResolver = {
+        auth: function($q, $timeout, authentication) {
+            var deferred = $q.defer();
+            authentication.init().then(function() {
+                if (checkAccessToRoute($route.current)) {
+                    // if user ends up linking to login page and they are authenticated, redirect them to default page
+                    if (authentication.isAuthenticated() && $route.current.loginPage) {
+                        $timeout(function() {
+                            $location.path('/');
+                        });
+                    }
+                    deferred.resolve();
                 } else {
-                  ctrl.loginError = data.message;
-                }
-                ctrl.loginForm = {};
-                refresh();
-            });
-    };
-
-    ctrl.deleteMessage = function(message) {
-        $http.post('api/bm/messages/inbox/delete', {id: message.msgid, token: auth.token})
-            .success(function() {
-                $notify.warning('Message successfully deleted.');
-                refresh();
-            });
-    };
-
-    ctrl.logout = function () {
-        auth = null;
-        localStorageService.remove('auth');
-    };
-
-    ctrl.messages = [];
-    ctrl.addresses = [];
-    ctrl.addressbook = [];
-
-    ctrl.unreadCount = function() {
-        return _.filter(ctrl.messages, function(f) {return f.read === 0;}).length;
-    };
-
-    ctrl.lookup = function(address) {
-        var displayAddress = null;
-        _.each(ctrl.addresses, function(a) {
-            if (a.address === address) {
-                displayAddress = a.label;
-            }
-        });
-        if (!displayAddress) {
-            _.each(ctrl.addressbook, function (a) {
-                if (a.address === address) {
-                    displayAddress = a.label;
-                }
-            });
-        }
-        return displayAddress || address;
-    };
-
-    var refresh = function() {
-        if (!!auth) {
-            var previousCount = ctrl.unreadCount();
-
-            $http.post('api/bm/messages/inbox/list', {token: auth.token})
-                .success(function(data) {
-                    _.each(data, function(message) {
-                       message.receivedTime = Date.parse(message.receivedTime);
+                    // permission denied (shouldn't really redirect here)
+                    $timeout(function() {
+                        $location.path(loginPage);
                     });
-                    ctrl.messages = data;
-                    var newMessages = ctrl.unreadCount() - previousCount;
-                    if (newMessages > 0) {
-                        $notify.success(newMessages + " new messages.");
-                    }
-                });
-            $http.post('api/bm/addresses/list', {token: auth.token})
-                .success(function(data) {
-                    ctrl.addresses = data;
-                });
-            $http.post('api/bm/addressbook/list', {token: auth.token})
-                .success(function(data) {
-                    ctrl.addressbook = data;
-                });
-
+                    deferred.reject();
+                }
+            });
+            return deferred;
         }
-        $timeout(refresh, 5000);
     };
 
+    // decorate non-public routes with authentication verification
+    for(var path in $route.routes) {
+        var route = $route.routes[path];
+        route.resolve = route.resolve || {};
+        angular.extend(route.resolve, authResolver);
+        if (route.loginPage) {
+            loginPage = path;
+        }
+    }
+
+});
+
+app.controller('bitmessageController', function (authentication, messages, $scope) {
+
+    $scope.isAuthenticated = function() {
+        return authentication.isAuthenticated();
+    };
+
+    $scope.getUsername = function() {
+        return authentication.getUsername();
+    };
+
+    $scope.unreadCount = messages.unreadCount;
+
+    $scope.logout = function() {
+        authentication.logout();
+    };
 });

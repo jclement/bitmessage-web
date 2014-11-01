@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded());
 app.use(express.static(path.join(__dirname, '..', 'client')));
 app.use(logger('dev'));
 app.use("/lib", express.static(path.join(__dirname, '..', 'bower_components')));
+app.use("/fonts", express.static(path.join(__dirname, '..', 'bower_components', 'bootstrap', 'fonts')));
 app.use('/api/auth', route_authentication);
 app.use('/api/test', route_test);
 app.use('/api/bm', route_bm);

@@ -1,0 +1,30 @@
+<div class="panel-heading">
+    <h3 class="panel-title">Authenticate Yourself Human!</h3>
+</div>
+<div class="panel-body">
+    <div class="alert alert-danger" ng-show="loginError">{{loginError}}</div>
+    <form name="loginForm" class="form form-horizontal" ng-submit="loginForm.$valid && login()">
+        <div class="form-group">
+            <label for="username" class="col-sm-2 control-label">Username</label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="Username" id="username"
+                       ng-model="loginForm.username" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password" class="col-sm-2 control-label">Password</label>
+
+            <div class="col-sm-10">
+                <input type="password" class="form-control" placeholder="Password" id="password"
+                       ng-model="loginForm.password" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-default">Sign in</button>
+            </div>
+        </div>
+
+    </form>
+</div>

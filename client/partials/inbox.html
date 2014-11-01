@@ -1,0 +1,26 @@
+<h1>Inbox</h1>
+
+<div class="alert alert-info" ng-show="messages().length === 0">No messages in Inbox</div>
+<table class="table table-condensed table-striped" ng-show="messages().length > 0">
+    <thead>
+    <tr>
+        <th>&nbsp;</th>
+        <th>Subject</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Received Time</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="message in messages() | orderBy: receivedTime : reverse"
+        ng-class="{'info':message.read === 0}">
+        <td>
+            <button class="btn btn-xs btn-primary" ng-click="openMessage(message)">Open</button>
+        </td>
+        <td>{{message.subject}}</td>
+        <td>{{lookup(message.fromAddress)}}</td>
+        <td>{{lookup(message.toAddress)}}</td>
+        <td>{{message.receivedTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+    </tr>
+    </tbody>
+</table>
