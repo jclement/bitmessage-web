@@ -1,0 +1,26 @@
+{
+    "name": "garageberrypi",
+    "version": "0.1.0",
+    "homepage": "https://github.com/jclement/garageberrypi",
+    "authors": [
+        "Jeff Clement <jeffrey.clement@gmail.com>"
+    ],
+    "description": "Garage door controller/monitor written in Node for RPi",
+    "license": "BSD",
+    "private": true,
+    "dependencies": {
+        "jquery": "2.1.*",
+        "underscore": "1.6.*",
+        "bootstrap": "3.2.*",
+        "angular": "*",
+        "angular-local-storage": "*",
+        "noty":"*"
+    },
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ]
+}

@@ -1,0 +1,22 @@
+body {
+  padding-top: 70px;
+}
+
+@media (max-width: 800px) {
+  body {
+    padding-top: 80px;
+  }
+
+  .navbar {
+    padding-top: 15px;
+  }
+}
+
+
+img.img-center {
+    margin: 0 auto;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}

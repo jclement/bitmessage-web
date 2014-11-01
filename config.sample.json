@@ -1,0 +1,15 @@
+{
+  "PORT": 3000,
+  "url": "http://localhost/",
+
+  "jwtSecret": null,
+
+  "users": [
+    { "name": "demo", "password": "demo" }
+  ],
+
+  "gpio": {
+    "toggle_pin": 25,
+    "status_pin": 4
+  }
+}
