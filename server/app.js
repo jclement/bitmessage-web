@@ -25,7 +25,7 @@ app.use('/api/auth', route_authentication);
 app.use('/api/test', route_test);
 app.use('/api/bm', route_bm);
 
-var port = config('PORT') || 3000
+var port = config('port') || 3000;
 http.createServer(app).listen(port, function () {
     debug('Started.  Listening on port ' + port);
-})
+});

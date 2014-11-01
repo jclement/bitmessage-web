@@ -61,8 +61,8 @@ app.controller('bitmessageController', function ($notify, $http, $timeout, $inte
 
     ctrl.deleteMessage = function(message) {
         $http.post('api/bm/messages/inbox/delete', {id: message.msgid, token: auth.token})
-            .success(function(data) {
-                $notify.warning('Message successfully deleted.')
+            .success(function() {
+                $notify.warning('Message successfully deleted.');
                 refresh();
             });
     };
@@ -122,7 +122,7 @@ app.controller('bitmessageController', function ($notify, $http, $timeout, $inte
                 });
 
         }
-        $timeout(refresh, 2000);
+        $timeout(refresh, 5000);
     };
 
 });

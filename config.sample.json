@@ -1,15 +1,16 @@
 {
-  "PORT": 3000,
-  "url": "http://localhost/",
-
+  "port": 3000,
+  "bm": {
+    "host": "127.0.0.1",
+    "port": 8442,
+    "username": "dev",
+    "password": "dev"
+  },
   "jwtSecret": null,
-
   "users": [
-    { "name": "demo", "password": "demo" }
-  ],
-
-  "gpio": {
-    "toggle_pin": 25,
-    "status_pin": 4
-  }
+    {
+      "name": "demo",
+      "password": "demo"
+    }
+  ]
 }
