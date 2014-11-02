@@ -1,1 +1,34 @@
 <h1>Manage Identities</h1>
+
+<div class="well well-sm" ng-hide="busy">
+    <form name="newForm" class="form form-inline" ng-submit="newForm.$valid && newIdentity(newForm.label)">
+        <input type="text" class="form-control input-sm" placeholder="Label" id="label"
+               ng-model="newForm.label" required>
+        <button type="submit" ng-disabled="newForm.$invalid" class="btn btn-sm btn-primary">Create Identity</button>
+    </form>
+
+</div>
+
+<div class="alert alert-info" ng-show="identities.length === 0">No identities in Inbox</div>
+<table class="table table-condensed table-striped" ng-show="messages.length > 0">
+    <thead>
+    <tr>
+        <th>Label</th>
+        <th>Address</th>
+        <th>Active</th>
+        <th>Stream</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="identity in identities | orderBy:'label'">
+        <td>{{identity.label}}</td>
+        <td>{{identity.address}}</td>
+        <td>
+            <span ng-show="!identity.enabled" class="label label-danger">in-active</span>
+            <span ng-show="identity.enabled" class="label label-success">active</span>
+        </td>
+        <td>{{identity.stream}}</td>
+    </tr>
+    </tbody>
+</table>
+

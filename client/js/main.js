@@ -99,34 +99,18 @@ app.run(function($rootScope, authentication, $location, $route) {
 app.controller('bitmessageController', function (authentication, $q, $http, $interval, $scope) {
 
     $scope.messages = [];
-    $scope.addresses = [];
-    $scope.addressbook = [];
 
     var refresh = function () {
         var deferred = $q.defer();
         if (authentication.isAuthenticated()) {
-
             $http.post('api/bm/messages/inbox/list', {token: authentication.getToken()})
                 .success(function (data) {
                     _.each(data, function (message) {
                         message.receivedTime = Date.parse(message.receivedTime);
                     });
                     $scope.messages = data;
-                });
-
-            $http.post('api/bm/addresses/list', {token: authentication.getToken()})
-                .success(function (data) {
-                    $scope.addresses = data;
                     deferred.resolve();
                 });
-
-            $http.post('api/bm/addressbook/list', {token: authentication.getToken()})
-                .success(function (data) {
-                    $scope.addressbook = data;
-                });
-
-            deferred.resolve();
-
         } else {
             deferred.resolve();
         }
@@ -150,23 +134,6 @@ app.controller('bitmessageController', function (authentication, $q, $http, $int
 
     $scope.logout = function() {
         authentication.logout();
-    };
-
-    $scope.lookup = function(address) {
-        var displayAddress = null;
-        _.each($scope.addresses, function(a) {
-            if (a.address === address) {
-                displayAddress = a.label;
-            }
-        });
-        if (!displayAddress) {
-            _.each($scope.addressbook, function (a) {
-                if (a.address === address) {
-                    displayAddress = a.label;
-                }
-            });
-        }
-        return displayAddress || address;
     };
 
 });

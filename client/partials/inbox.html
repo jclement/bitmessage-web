@@ -18,8 +18,8 @@
             <a href="#/view/{{message.msgid}}" class="btn btn-xs btn-primary" ng-click="openMessage(message)">Open</a>
         </td>
         <td>{{message.subject}}</td>
-        <td>{{lookup(message.fromAddress)}}</td>
-        <td>{{lookup(message.toAddress)}}</td>
+        <td>{{message.fromAddressDisplay}}</td>
+        <td>{{message.toAddressDisplay}}</td>
         <td>{{message.receivedTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
     </tr>
     </tbody>

@@ -12,7 +12,8 @@ app.controller('ViewController', function (authentication, $notify, $http, $loca
 
     $scope.deleteMessage = function() {
         $http.post('api/bm/messages/inbox/delete', {id: msgid, token: authentication.getToken()})
-            .success(function(data) {
+            .success(function() {
+                // TODO: remove from scope.messages
                 $notify.warning('Message successfully deleted.');
                 $location.path("#/index");
             });
