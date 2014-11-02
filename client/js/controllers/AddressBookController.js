@@ -2,13 +2,10 @@ app.controller('AddressBookController', function (authentication, $notify, $http
 
     $scope.addressbook = [];
 
-    var refresh = function () {
-        $http.post('api/bm/addressbook/list', {token: authentication.getToken()})
-            .success(function (data) {
-                $scope.addressbook = data;
-            });
-    };
-    refresh();
+    $http.post('api/bm/addressbook/list', {token: authentication.getToken()})
+        .success(function (data) {
+            $scope.addressbook = data;
+        });
 
     $scope.newEntry = function (label, address) {
         $http.post('api/bm/addressbook/addEntry', {token: authentication.getToken(), address:address, label: label})
