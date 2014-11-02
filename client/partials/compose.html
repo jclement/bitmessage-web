@@ -16,8 +16,9 @@
         <label for="toAddress" class="col-sm-2 control-label">To:</label>
 
         <div class="col-sm-10">
-            <input type="text" class="form-control" placeholder="To Address" id="toAddress"
-                   ng-model="form.toAddress" required>
+            <select class="form-control" placeholder="To Address" id="toAddress" ng-model="form.toAddress" required>
+                <option ng-repeat="entry in addressbook" value="{{entry.address}}">{{entry.label}}</option>
+            </select>
         </div>
     </div>
 

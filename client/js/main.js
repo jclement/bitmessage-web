@@ -1,4 +1,4 @@
-var app = angular.module('bitmessageApp', ['authentication','ngRoute','ngNotify','LocalStorageModule']);
+var app = angular.module('bitmessageApp', ['authentication','ngRoute','ngNotify','LocalStorageModule','cfp.hotkeys']);
 
 app.filter('trim', function() {
    return function(input) {
@@ -96,9 +96,25 @@ app.run(function($rootScope, authentication, $location, $route) {
 
 });
 
-app.controller('bitmessageController', function (authentication, $q, $http, $interval, $scope) {
+app.controller('bitmessageController', function (authentication, $q, $location, $http, $interval, $scope, hotkeys) {
 
     $scope.messages = [];
+
+    hotkeys.bindTo($scope)
+        .add({
+            combo:'n',
+            description: 'New Message',
+            callback: function() {
+                $location.path("compose");
+            }
+        })
+        .add({
+            combo:'i',
+            description: 'Inbox',
+            callback: function() {
+                $location.path("inbox");
+            }
+        });
 
     var refresh = function () {
         var deferred = $q.defer();
