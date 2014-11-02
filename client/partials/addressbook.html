@@ -1,1 +1,33 @@
 <h1>Address Book</h1>
+
+<div class="well well-sm" ng-hide="busy">
+    <form name="newForm" class="form form-inline" ng-submit="newForm.$valid && newEntry(newForm.label, newForm.address)">
+        <input type="text" class="form-control input-sm" placeholder="Label" id="label"
+               ng-model="newForm.label" required>
+        <input type="text" class="form-control input-sm" placeholder="Address" id="address"
+               ng-model="newForm.address" required>
+        <button type="submit" ng-disabled="newForm.$invalid" class="btn btn-sm btn-primary">Create Entry</button>
+    </form>
+
+</div>
+
+<div class="alert alert-info" ng-show="addressbook.length === 0">Empty Address Book</div>
+<table class="table table-condensed table-striped" ng-show="addressbook.length > 0">
+    <thead>
+    <tr>
+        <th>Label</th>
+        <th>Address</th>
+        <th>&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="entry in addressbook | orderBy:'label'">
+        <td>{{entry.label}}</td>
+        <td>{{entry.address}}</td>
+        <td>
+            <button ng-click="deleteEntry(entry)" class="btn btn-xs btn-danger">Delete</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+

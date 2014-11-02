@@ -17,6 +17,7 @@ app.controller('IdentitiesController', function (authentication, $http, $locatio
             .success(function (data) {
                 $scope.identities.push(data);
                 $scope.busy = false;
+                $scope.newForm.label = null;
             });
     };
 

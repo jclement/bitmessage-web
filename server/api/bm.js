@@ -119,6 +119,27 @@ router.post('/addressbook/list', function (req, res) {
     });
 });
 
+router.post('/addressbook/addEntry', function (req, res) {
+    bm.addressbook.addEntry(req.body.address, req.body.label, function (message) {
+        if (message.indexOf("Added address") === -1) {
+            res.status(500);
+            res.end(message);
+        } else {
+            res.json({
+                address: req.body.address,
+                label: req.body.label
+            });
+        }
+    });
+});
+
+router.post('/addressbook/deleteEntry', function (req, res) {
+    bm.addressbook.deleteEntry(req.body.address, function () {
+        res.end();
+    });
+});
+
+
 router.post('/addresses/createRandom', function(req, res) {
     bm.addresses.createRandom(req.body.label, function(id) {
         bm.addresses.list(function(addresses) {
