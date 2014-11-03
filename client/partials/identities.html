@@ -10,25 +10,26 @@
 </div>
 
 <div class="alert alert-info" ng-show="identities.length === 0">No identities</div>
-<table class="table table-condensed table-striped" ng-show="identities.length > 0">
-    <thead>
-    <tr>
-        <th>Label</th>
-        <th>Address</th>
-        <th>Active</th>
-        <th>Stream</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="identity in identities | orderBy:'label'">
-        <td>{{identity.label}}</td>
-        <td>{{identity.address}}</td>
-        <td>
-            <span ng-show="!identity.enabled" class="label label-danger">in-active</span>
-            <span ng-show="identity.enabled" class="label label-success">active</span>
-        </td>
-        <td>{{identity.stream}}</td>
-    </tr>
-    </tbody>
-</table>
-
+<div class="table-responsive" ng-show="identities.length > 0">
+    <table class="table table-condensed table-striped">
+        <thead>
+        <tr>
+            <th>Label</th>
+            <th>Address</th>
+            <th>Active</th>
+            <th>Stream</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="identity in identities | orderBy:'label'">
+            <td>{{identity.label}}</td>
+            <td class="nowrap">{{identity.address}}</td>
+            <td>
+                <span ng-show="!identity.enabled" class="label label-danger">in-active</span>
+                <span ng-show="identity.enabled" class="label label-success">active</span>
+            </td>
+            <td>{{identity.stream}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -15,10 +15,10 @@
         <tbody>
         <tr ng-repeat="message in sentMessages | orderBy: receivedTime : reverse">
             <td>{{message.subject}}</td>
-            <td><a href="#/compose/to/{{message.fromAddress}}">{{message.fromAddressDisplay}}</a></td>
-            <td><a href="#/compose/to/{{message.toAddress}}">{{message.toAddressDisplay}}</a></td>
-            <td>{{message.lastActionTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-            <td>{{message.status}}</td>
+            <td class="nowrap"><a href="#/compose/to/{{message.fromAddress}}">{{message.fromAddressDisplay}}</a></td>
+            <td class="nowrap"><a href="#/compose/to/{{message.toAddress}}">{{message.toAddressDisplay}}</a></td>
+            <td class="nowrap">{{message.lastActionTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td class="nowrap">{{message.status}}</td>
         </tr>
         </tbody>
     </table>
