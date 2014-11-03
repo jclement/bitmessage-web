@@ -57,6 +57,52 @@ router.post('/messages/inbox/list', function (req, res) {
         });
 });
 
+router.post('/messages/sent/list', function (req, res) {
+
+    var messagesDeferred = q.defer();
+    bm.messages.sent.list(function (value) {
+        messagesDeferred.resolve(value);
+    });
+
+    var addressbookDeferred = q.defer();
+    bm.addressbook.list(function (value) {
+        addressbookDeferred.resolve(value);
+    });
+
+    var addressesDeferred = q.defer();
+    bm.addresses.list(function (value) {
+        addressesDeferred.resolve(value);
+    });
+
+    q.all([messagesDeferred.promise, addressbookDeferred.promise, addressesDeferred.promise])
+        .then(function (data) {
+            var messages = data[0];
+            var addressbook = data[1];
+            var addresses = data[2];
+            var l = function(address) {
+                var displayAddress = null;
+                _.each(addresses, function(a) {
+                    if (a.address === address) {
+                        displayAddress = a.label;
+                    }
+                });
+                if (!displayAddress) {
+                    _.each(addressbook, function(a) {
+                        if (a.address === address) {
+                            displayAddress = a.label;
+                        }
+                    });
+                }
+                return displayAddress || address;
+            };
+            _.each(messages, function(message) {
+                message.fromAddressDisplay = l(message.fromAddress);
+                message.toAddressDisplay = l(message.toAddress);
+            });
+            res.json(messages);
+        });
+});
+
 router.post('/messages/inbox/delete', function (req, res) {
     bm.messages.inbox.moveToTrash(req.body.id, function (value) {
         res.json(value);

@@ -4,11 +4,11 @@ body {
 
 @media (max-width: 800px) {
   body {
-    padding-top: 80px;
+    padding-top: 70px;
   }
 
   .navbar {
-    padding-top: 15px;
+    /* padding-top: 15px; */
   }
 }
 

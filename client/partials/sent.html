@@ -1,0 +1,25 @@
+<h1>Sent Messages</h1>
+
+<div class="alert alert-info" ng-show="sentMessages.length === 0">No messages in Sent</div>
+<div class="table-responsive" ng-show="sentMessages.length > 0">
+    <table class="table table-condensed table-striped">
+        <thead>
+        <tr>
+            <th>Subject</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Status Time</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="message in sentMessages | orderBy: receivedTime : reverse">
+            <td>{{message.subject}}</td>
+            <td><a href="#/compose/to/{{message.fromAddress}}">{{message.fromAddressDisplay}}</a></td>
+            <td><a href="#/compose/to/{{message.toAddress}}">{{message.toAddressDisplay}}</a></td>
+            <td>{{message.lastActionTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td>{{message.status}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

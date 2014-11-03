@@ -22,40 +22,57 @@
 
 <body ng-app="bitmessageApp" ng-controller="bitmessageController" ng-cloak>
 
-<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
             <a class="navbar-brand" href="#/inbox">bitmessage
                 <span class="badge" ng-show="unreadCount()">
                 {{unreadCount()}}
                 </span></a>
         </div>
-        <div class="collapse navbar-collapse">
+        <div class="hidden-sm hidden-xs">
             <ul class="nav navbar-nav">
-                <li><a href="#/compose" ng-show="isAuthenticated()" title="Inbox"><span
-                        class="glyphicon glyphicon-send"></span></a>
+                <li><a href="#/inbox" ng-show="isAuthenticated()" title="Inbox"><span
+                        class="glyphicon glyphicon-home"></span> Inbox</a>
+                </li>
+                <li><a href="#/compose" ng-show="isAuthenticated()" title="Compose"><span
+                        class="glyphicon glyphicon-send"></span> Compose</a>
+                </li>
+                <li><a href="#/sent" ng-show="isAuthenticated()" title="Sent"><span
+                        class="glyphicon glyphicon-book"></span> Sent</a>
                 </li>
                 <li><a href="#/addressBook" ng-show="isAuthenticated()" title="Address Book"><span
-                        class="glyphicon glyphicon-book"></span></a>
+                        class="glyphicon glyphicon-book"></span> Address Book</a>
                 </li>
                 <li><a href="#/identities" ng-show="isAuthenticated()" title="Manage Identities"><span
-                        class="glyphicon glyphicon-user"></span></a>
+                        class="glyphicon glyphicon-user"></span> Manage Identities</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav pull-right">
                 <li><a href="#" ng-click="logout()" ng-show="isAuthenticated()" title="Logout"><span
-                        class="glyphicon glyphicon-off"></span></a></a>
+                        class="glyphicon glyphicon-off"></span> Logout</a>
                 </li>
             </ul>
         </div>
     </div>
 </div>
+
+<div class="container hidden-lg hidden-md">
+    <div class="btn-group">
+        <a class="btn btn-sm btn-default" href="#/inbox" ng-show="isAuthenticated()" title="Inbox"><span
+                class="glyphicon glyphicon-home"></span> Inbox</a>
+        <a class="btn btn-sm btn-default" href="#/compose" ng-show="isAuthenticated()" title="Compose"><span
+                class="glyphicon glyphicon-send"></span> Compose</a>
+        <a class="btn btn-sm btn-default" href="#/sent" ng-show="isAuthenticated()" title="Sent"><span
+                class="glyphicon glyphicon-book"></span> Sent</a>
+        <a class="btn btn-sm btn-default" href="#/addressBook" ng-show="isAuthenticated()" title="Address Book"><span
+                class="glyphicon glyphicon-book"></span> Address Book</a>
+        <a class="btn btn-sm btn-default" href="#/identities" ng-show="isAuthenticated()"
+           title="Manage Identities"><span
+                class="glyphicon glyphicon-user"></span> Identities</a>
+    </div>
+</div>
+
 
 <div class="container" ng-view/>
 
@@ -76,6 +93,7 @@
 <script src="js/controllers/AddressBookController.js"></script>
 <script src="js/controllers/LoginController.js"></script>
 <script src="js/controllers/IdentitiesController.js"></script>
+<script src="js/controllers/SentController.js"></script>
 <script src="js/controllers/InboxController.js"></script>
 <script src="js/controllers/ViewController.js"></script>
 </body>
