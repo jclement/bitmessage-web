@@ -1,4 +1,4 @@
-body {
+/*body {
   padding-top: 70px;
 }
 
@@ -8,10 +8,10 @@ body {
   }
 
   .navbar {
-    /* padding-top: 15px; */
+     padding-top: 15px;
   }
 }
-
+/*
 
 img.img-center {
     margin: 0 auto;
