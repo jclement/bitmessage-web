@@ -23,7 +23,7 @@
     <tbody>
     <tr ng-repeat="entry in addressbook | orderBy:'label'">
         <td>{{entry.label}}</td>
-        <td>{{entry.address}}</td>
+        <td><a href="#/compose/to/{{entry.address}}">{{entry.address}}</a></td>
         <td>
             <button ng-click="deleteEntry(entry)" class="btn btn-xs btn-danger">Delete</button>
         </td>

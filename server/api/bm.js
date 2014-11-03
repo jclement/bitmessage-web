@@ -68,7 +68,7 @@ router.post('/messages/inbox/read', function (req, res) {
     var messageDeferred = q.defer();
     bm.messages.inbox.single(req.body.id, function (value) {
         messageDeferred.resolve(value);
-    }, true);
+    }, req.body.markRead || true);
 
     var addressbookDeferred = q.defer();
     bm.addressbook.list(function (value) {

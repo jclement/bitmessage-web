@@ -21,6 +21,10 @@ app.config(function ($routeProvider) {
         controller: 'ComposeController',
         templateUrl: 'partials/compose.html'
     });
+    $routeProvider.when('/compose/:type/:id', {
+        controller: 'ComposeController',
+        templateUrl: 'partials/compose.html'
+    });
     $routeProvider.when('/view/:msgid', {
         controller: 'ViewController',
         templateUrl: 'partials/view.html'

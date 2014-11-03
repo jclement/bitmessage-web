@@ -20,8 +20,8 @@
                    ng-click="openMessage(message)">Open</a>
             </td>
             <td>{{message.subject}}</td>
-            <td>{{message.fromAddressDisplay}}</td>
-            <td>{{message.toAddressDisplay}}</td>
+            <td><a href="#/compose/to/{{message.fromAddress}}">{{message.fromAddressDisplay}}</a></td>
+            <td><a href="#/compose/to/{{message.toAddress}}">{{message.toAddressDisplay}}</a></td>
             <td>{{message.receivedTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
         </tr>
         </tbody>
