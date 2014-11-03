@@ -113,6 +113,13 @@ app.controller('bitmessageController', function (authentication, $q, $location, 
             }
         })
         .add({
+            combo:'a',
+            description: 'Address Book',
+            callback: function() {
+                $location.path("addressBook");
+            }
+        })
+        .add({
             combo:'i',
             description: 'Inbox',
             callback: function() {
