@@ -35,6 +35,8 @@
                 <span class="badge" ng-show="unreadCount()">
                 {{unreadCount()}}
                 </span></a>
+        </div>
+        <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="#/compose" ng-show="isAuthenticated()" title="Inbox"><span
                         class="glyphicon glyphicon-send"></span></a>
@@ -46,8 +48,6 @@
                         class="glyphicon glyphicon-user"></span></a>
                 </li>
             </ul>
-        </div>
-        <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav pull-right">
                 <li><a href="#" ng-click="logout()" ng-show="isAuthenticated()">Logout ({{getUsername()}})</a>
                 </li>
