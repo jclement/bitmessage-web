@@ -14,6 +14,25 @@ Currently, no support for subscriptions.
 * NPM
 * Bitmessage Client with APIs enabled
 
+## Screenshots
+
+Here is the index page.  Nothing too fancy but...
+
+![Index Page](http://d.pr/i/1jSx9+)
+
+Viewing a message
+
+![Viewing a message](http://d.pr/i/1831q+)
+
+Composing messages is nice.  There is a nice search box for both recipient / from address.
+
+![Composing](http://d.pr/i/Jb5J+)
+
+And a video of usage:
+
+[Video of Usage](http://d.pr/v/1ihSO)
+
+
 ## Installation
 
 Pull package source from Github:
