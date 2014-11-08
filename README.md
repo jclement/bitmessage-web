@@ -62,7 +62,7 @@ $ node server/app.js
 ## Quick Notes:
 
 * bitmessage-web should be run on the same machine as bitmessage or through an SSH tunnel!
-* If accessing bitmessage-web remotely (from phone for example) you really should run through SSL or you defeat the whole point.  Install NGINX / Apache on the same machine and proxy requests through to bitmessage-web.
+* If accessing bitmessage-web remotely (from phone for example) you really should run through SSL or you defeat the whole point.  Install NGINX / Apache on the same machine and proxy requests through to bitmessage-web. (see nginx.sample.config)
 
 ## Future updates:
 
