@@ -2,10 +2,12 @@
 
 I love the idea of Bitmessage.  Unfortunately, it requires a fairly heavy-weight client and isn't accessible from my phone.  There exist a couple of web based Bitmessage tools but they require trusting a 3rd party which defeats the purpose...
 
-''bitmessage-web'' is a web client that sits on top of the APIs for the normal bitmessage client.
+''bitmessage-web'' is a responsive web client that sits on top of the APIs for the normal bitmessage client and gives access to much of the normal bitmessage functionality.
 
 It runs entirely on hardware you control and can be access with any number of devices (phones, tablets, etc).
 
+Currently, no support for subscriptions.
+ 
 ## Requirements
 * NodeJS
 * Bower
@@ -41,4 +43,4 @@ $ node server/app.js
 ## Quick Notes:
 
 * bitmessage-web should be run on the same machine as bitmessage or through an SSH tunnel!
-* bitmessage-web really should run through SSL or you defeat the whole point.  Install NGINX / Apache on the same machine and proxy requests through to bitmessage-web.
+* If accessing bitmessage-web remotely (from phone for example) you really should run through SSL or you defeat the whole point.  Install NGINX / Apache on the same machine and proxy requests through to bitmessage-web.
