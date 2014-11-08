@@ -198,7 +198,7 @@ router.post('/addresses/createRandom', function(req, res) {
 });
 
 router.post('/messages/send', function(req, res) {
-    bm.messages.send(req.body.toAddress, req.body.fromAddress, req.body.subject, req.body.message, function(data) {
+    bm.messages.send(req.body.toAddress, req.body.fromAddress, req.body.subject, req.body.message || '', function(data) {
         if (data.indexOf("API Error") !== -1) {
             res.status(500);
             res.end(data);
