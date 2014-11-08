@@ -30,7 +30,42 @@
                 <span class="badge" ng-show="unreadCount()">
                 {{unreadCount()}}
                 </span></a>
+            <!-- obvious room for improvement -->
+            <div class="hidden-lg hidden-md hidden-sm panel-button-bar">
+                <a class="btn btn-sm btn-default" href="#/inbox" ng-show="isAuthenticated()" title="Inbox"><span
+                        class="glyphicon glyphicon-home"></span></a>
+                <a class="btn btn-sm btn-default" href="#/compose" ng-show="isAuthenticated()" title="Compose"><span
+                        class="glyphicon glyphicon-send"></span></a>
+                <a class="btn btn-sm btn-default" href="#/outbox" ng-show="isAuthenticated()" title="Outbox"><span
+                        class="glyphicon glyphicon-inbox"></span></a>
+                <a class="btn btn-sm btn-default" href="#/addressBook" ng-show="isAuthenticated()"
+                   title="Address Book"><span class="glyphicon glyphicon-book"></span></a>
+                <a class="btn btn-sm btn-default" href="#/identities" ng-show="isAuthenticated()"
+                   title="Manage Identities"><span
+                        class="glyphicon glyphicon-user"></span></a>
+                <a class="btn btn-sm btn-default" href="#" ng-click="logout()" ng-show="isAuthenticated()"
+                   title="Logout"><span
+                        class="glyphicon glyphicon-off"></span></a>
+            </div>
         </div>
+
+        <div class="hidden-lg hidden-md hidden-xs panel-button-bar">
+            <a class="btn btn-sm btn-default" href="#/inbox" ng-show="isAuthenticated()" title="Inbox"><span
+                    class="glyphicon glyphicon-home"></span></a>
+            <a class="btn btn-sm btn-default" href="#/compose" ng-show="isAuthenticated()" title="Compose"><span
+                    class="glyphicon glyphicon-send"></span></a>
+            <a class="btn btn-sm btn-default" href="#/outbox" ng-show="isAuthenticated()" title="Outbox"><span
+                    class="glyphicon glyphicon-inbox"></span></a>
+            <a class="btn btn-sm btn-default" href="#/addressBook" ng-show="isAuthenticated()"
+               title="Address Book"><span class="glyphicon glyphicon-book"></span></a>
+            <a class="btn btn-sm btn-default" href="#/identities" ng-show="isAuthenticated()"
+               title="Manage Identities"><span
+                    class="glyphicon glyphicon-user"></span></a>
+            <a class="btn btn-sm btn-default" href="#" ng-click="logout()" ng-show="isAuthenticated()"
+               title="Logout"><span
+                    class="glyphicon glyphicon-off"></span></a>
+        </div>
+
         <div class="hidden-sm hidden-xs">
             <ul class="nav navbar-nav">
                 <li><a href="#/inbox" ng-show="isAuthenticated()" title="Inbox"><span
@@ -58,32 +93,7 @@
     </div>
 </div>
 
-<div class="container hidden-lg hidden-md" style="padding-bottom:10px;">
-    <center>
-    <div class="btn-group">
-        <a class="btn btn-sm btn-default" href="#/inbox" ng-show="isAuthenticated()" title="Inbox"><span
-                class="glyphicon glyphicon-home"></span></a>
-    </div>
-    <div class="btn-group">
-        <a class="btn btn-sm btn-default" href="#/compose" ng-show="isAuthenticated()" title="Compose"><span
-                class="glyphicon glyphicon-send"></span></a>
-        <a class="btn btn-sm btn-default" href="#/outbox" ng-show="isAuthenticated()" title="Outbox"><span
-                class="glyphicon glyphicon-inbox"></span></a>
-    </div>
-    <div class="btn-group">
-
-        <a class="btn btn-sm btn-default" href="#/addressBook" ng-show="isAuthenticated()" title="Address Book"><span
-                class="glyphicon glyphicon-book"></span></a>
-        <a class="btn btn-sm btn-default" href="#/identities" ng-show="isAuthenticated()"
-           title="Manage Identities"><span
-                class="glyphicon glyphicon-user"></span></a>
-    </div>
-    </center>
-</div>
-
-
-
-<div class="container" ng-view />
+<div class="container" ng-view/>
 
 <script src="lib/angular/angular.min.js"></script>
 <script src="lib/angular-route/angular-route.min.js"></script>
