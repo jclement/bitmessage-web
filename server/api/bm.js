@@ -57,7 +57,7 @@ router.post('/messages/inbox/list', function (req, res) {
         });
 });
 
-router.post('/messages/sent/list', function (req, res) {
+router.post('/messages/outbox/list', function (req, res) {
 
     var messagesDeferred = q.defer();
     bm.messages.sent.list(function (value) {
@@ -95,11 +95,14 @@ router.post('/messages/sent/list', function (req, res) {
                 }
                 return displayAddress || address;
             };
-            _.each(messages, function(message) {
+            res.json(_.chain(messages).filter(function(message) {
+                return message.status !== 'ackreceived' &&
+                    message.status !== 'msgsentnoackexpected';
+            }).each(function(message) {
                 message.fromAddressDisplay = l(message.fromAddress);
                 message.toAddressDisplay = l(message.toAddress);
-            });
-            res.json(messages);
+            }).value());
+
         });
 });
 
@@ -153,15 +156,22 @@ router.post('/messages/inbox/read', function (req, res) {
         });
 });
 
+var sortAddresses = function(addresses) {
+    return _.sortBy(addresses, function(a) {return a.label.toUpperCase();});
+}
+
 router.post('/addresses/list', function (req, res) {
     bm.addresses.list(function (value) {
-        res.json(value);
+        if (req.body.enabledOnly) {
+            return res.json(sortAddresses(_.filter(value, function(a) {return a.enabled;})));
+        }
+        res.json(sortAddresses(value));
     });
 });
 
 router.post('/addressbook/list', function (req, res) {
     bm.addressbook.list(function (value) {
-        res.json(value);
+        res.json(sortAddresses(value));
     });
 });
 
@@ -195,7 +205,7 @@ router.post('/addresses/createRandom', function(req, res) {
 });
 
 router.post('/messages/send', function(req, res) {
-    bm.messages.send(req.body.toAddress, req.body.fromAddress, req.body.subject, req.body.message, function(data) {
+    bm.messages.send(req.body.toAddress, req.body.fromAddress, req.body.subject, req.body.message || '', function(data) {
         if (data.indexOf("API Error") !== -1) {
             res.status(500);
             res.end(data);

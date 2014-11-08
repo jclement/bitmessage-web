@@ -13,6 +13,7 @@
     <title>bitmessage-web</title>
 
     <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="lib/angular-ui-select/dist/select.min.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="js/hotkeys/hotkeys.css" rel="stylesheet">
 
@@ -29,7 +30,42 @@
                 <span class="badge" ng-show="unreadCount()">
                 {{unreadCount()}}
                 </span></a>
+            <!-- obvious room for improvement -->
+            <div class="hidden-lg hidden-md hidden-sm panel-button-bar panel-button-bar-sm">
+                <a class="btn btn-sm btn-default" href="#/inbox" ng-show="isAuthenticated()" title="Inbox"><span
+                        class="glyphicon glyphicon-home"></span></a>
+                <a class="btn btn-sm btn-default" href="#/compose" ng-show="isAuthenticated()" title="Compose"><span
+                        class="glyphicon glyphicon-send"></span></a>
+                <a class="btn btn-sm btn-default" href="#/outbox" ng-show="isAuthenticated()" title="Outbox"><span
+                        class="glyphicon glyphicon-inbox"></span></a>
+                <a class="btn btn-sm btn-default" href="#/addressBook" ng-show="isAuthenticated()"
+                   title="Address Book"><span class="glyphicon glyphicon-book"></span></a>
+                <a class="btn btn-sm btn-default" href="#/identities" ng-show="isAuthenticated()"
+                   title="Manage Identities"><span
+                        class="glyphicon glyphicon-user"></span></a>
+                <a class="btn btn-sm btn-default" href="#" ng-click="logout()" ng-show="isAuthenticated()"
+                   title="Logout"><span
+                        class="glyphicon glyphicon-off"></span></a>
+            </div>
         </div>
+
+        <div class="hidden-lg hidden-md hidden-xs panel-button-bar">
+            <a class="btn btn-sm btn-default" href="#/inbox" ng-show="isAuthenticated()" title="Inbox"><span
+                    class="glyphicon glyphicon-home"></span></a>
+            <a class="btn btn-sm btn-default" href="#/compose" ng-show="isAuthenticated()" title="Compose"><span
+                    class="glyphicon glyphicon-send"></span></a>
+            <a class="btn btn-sm btn-default" href="#/outbox" ng-show="isAuthenticated()" title="Outbox"><span
+                    class="glyphicon glyphicon-inbox"></span></a>
+            <a class="btn btn-sm btn-default" href="#/addressBook" ng-show="isAuthenticated()"
+               title="Address Book"><span class="glyphicon glyphicon-book"></span></a>
+            <a class="btn btn-sm btn-default" href="#/identities" ng-show="isAuthenticated()"
+               title="Manage Identities"><span
+                    class="glyphicon glyphicon-user"></span></a>
+            <a class="btn btn-sm btn-default" href="#" ng-click="logout()" ng-show="isAuthenticated()"
+               title="Logout"><span
+                    class="glyphicon glyphicon-off"></span></a>
+        </div>
+
         <div class="hidden-sm hidden-xs">
             <ul class="nav navbar-nav">
                 <li><a href="#/inbox" ng-show="isAuthenticated()" title="Inbox"><span
@@ -38,8 +74,8 @@
                 <li><a href="#/compose" ng-show="isAuthenticated()" title="Compose"><span
                         class="glyphicon glyphicon-send"></span> Compose</a>
                 </li>
-                <li><a href="#/sent" ng-show="isAuthenticated()" title="Sent"><span
-                        class="glyphicon glyphicon-book"></span> Sent</a>
+                <li><a href="#/outbox" ng-show="isAuthenticated()" title="Outbox"><span
+                        class="glyphicon glyphicon-inbox"></span> Outbox</a>
                 </li>
                 <li><a href="#/addressBook" ng-show="isAuthenticated()" title="Address Book"><span
                         class="glyphicon glyphicon-book"></span> Address Book</a>
@@ -57,37 +93,14 @@
     </div>
 </div>
 
-<div class="container hidden-lg hidden-md" style="padding-bottom:10px;">
-    <center>
-    <div class="btn-group">
-        <a class="btn btn-sm btn-default" href="#/inbox" ng-show="isAuthenticated()" title="Inbox"><span
-                class="glyphicon glyphicon-home"></span></a>
-    </div>
-    <div class="btn-group">
-        <a class="btn btn-sm btn-default" href="#/compose" ng-show="isAuthenticated()" title="Compose"><span
-                class="glyphicon glyphicon-send"></span></a>
-        <a class="btn btn-sm btn-default" href="#/sent" ng-show="isAuthenticated()" title="Sent"><span
-                class="glyphicon glyphicon-book"></span></a>
-    </div>
-    <div class="btn-group">
-
-        <a class="btn btn-sm btn-default" href="#/addressBook" ng-show="isAuthenticated()" title="Address Book"><span
-                class="glyphicon glyphicon-book"></span></a>
-        <a class="btn btn-sm btn-default" href="#/identities" ng-show="isAuthenticated()"
-           title="Manage Identities"><span
-                class="glyphicon glyphicon-user"></span></a>
-    </div>
-    </center>
-</div>
-
-
-
-<div class="container" ng-view />
+<div class="container" ng-view/>
 
 <script src="lib/angular/angular.min.js"></script>
 <script src="lib/angular-route/angular-route.min.js"></script>
+<script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
 <script src="lib/jquery/dist/jquery.min.js"></script>
 <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="lib/angular-ui-select/dist/select.min.js"></script>
 <script src="lib/underscore/underscore.js"></script>
 <script src="lib/noty/js/noty/packaged/jquery.noty.packaged.min.js"></script>
 <script src="lib/angular-local-storage/dist/angular-local-storage.min.js"></script>
@@ -99,7 +112,7 @@
 <script src="js/controllers/AddressBookController.js"></script>
 <script src="js/controllers/LoginController.js"></script>
 <script src="js/controllers/IdentitiesController.js"></script>
-<script src="js/controllers/SentController.js"></script>
+<script src="js/controllers/OutboxController.js"></script>
 <script src="js/controllers/InboxController.js"></script>
 <script src="js/controllers/ViewController.js"></script>
 </body>

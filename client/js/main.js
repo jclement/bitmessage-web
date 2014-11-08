@@ -1,9 +1,40 @@
-var app = angular.module('bitmessageApp', ['authentication','ngRoute','ngNotify','LocalStorageModule','cfp.hotkeys']);
+var app = angular.module('bitmessageApp', ['ngSanitize', 'authentication', 'ngRoute', 'ngNotify', 'LocalStorageModule', 'cfp.hotkeys', 'ui.select']);
 
-app.filter('trim', function() {
-   return function(input) {
-       return (input || '').trim();
-   };
+app.filter('trim', function () {
+    return function (input) {
+        return (input || '').trim();
+    };
+});
+
+app.filter('propsFilter', function () {
+    return function (items, props) {
+        var out = [];
+
+        if (angular.isArray(items)) {
+            items.forEach(function (item) {
+                var itemMatches = false;
+
+                var keys = Object.keys(props);
+                for (var i = 0; i < keys.length; i++) {
+                    var prop = keys[i];
+                    var text = props[prop].toLowerCase();
+                    if (item[prop].toString().toLowerCase().indexOf(text) !== -1) {
+                        itemMatches = true;
+                        break;
+                    }
+                }
+
+                if (itemMatches) {
+                    out.push(item);
+                }
+            });
+        } else {
+            // Let the output be the input untouched
+            out = items;
+        }
+
+        return out;
+    }
 });
 
 app.config(function ($routeProvider) {
@@ -17,9 +48,9 @@ app.config(function ($routeProvider) {
         templateUrl: 'partials/about.html',
         public: true // pages are secure by default.  public pages can be tagged in this way.
     });
-    $routeProvider.when('/sent', {
-        controller: 'SentController',
-        templateUrl: 'partials/sent.html'
+    $routeProvider.when('/outbox', {
+        controller: 'OutboxController',
+        templateUrl: 'partials/outbox.html'
     });
     $routeProvider.when('/compose', {
         controller: 'ComposeController',
@@ -53,12 +84,12 @@ app.config(['localStorageServiceProvider', function (localStorageServiceProvider
     localStorageServiceProvider.setPrefix("bm");
 }]);
 
-app.run(function($rootScope, authentication, $location, $route) {
+app.run(function ($rootScope, authentication, $location, $route) {
 
     // placeholder for path to login page, discovered below when adding authResolver to routes
     var loginPage = null;
 
-    var checkAccessToRoute = function(route) {
+    var checkAccessToRoute = function (route) {
         // always allow access to login page
         if (route.loginPage) {
             return true;
@@ -69,20 +100,20 @@ app.run(function($rootScope, authentication, $location, $route) {
     };
 
     var authResolver = {
-        auth: function($q, $timeout, authentication) {
+        auth: function ($q, $timeout, authentication) {
             var deferred = $q.defer();
-            authentication.init().then(function() {
+            authentication.init().then(function () {
                 if (checkAccessToRoute($route.current)) {
                     // if user ends up linking to login page and they are authenticated, redirect them to default page
                     if (authentication.isAuthenticated() && $route.current.loginPage) {
-                        $timeout(function() {
+                        $timeout(function () {
                             $location.path('#/index');
                         });
                     }
                     deferred.resolve();
                 } else {
                     // permission denied (shouldn't really redirect here)
-                    $timeout(function() {
+                    $timeout(function () {
                         $location.path(loginPage);
                     });
                     deferred.reject();
@@ -93,7 +124,7 @@ app.run(function($rootScope, authentication, $location, $route) {
     };
 
     // decorate non-public routes with authentication verification
-    for(var path in $route.routes) {
+    for (var path in $route.routes) {
         var route = $route.routes[path];
         route.resolve = route.resolve || {};
         angular.extend(route.resolve, authResolver);
@@ -110,23 +141,23 @@ app.controller('bitmessageController', function (authentication, $q, $location, 
 
     hotkeys.bindTo($scope)
         .add({
-            combo:'n',
+            combo: 'n',
             description: 'New Message',
-            callback: function() {
+            callback: function () {
                 $location.path("compose");
             }
         })
         .add({
-            combo:'a',
+            combo: 'a',
             description: 'Address Book',
-            callback: function() {
+            callback: function () {
                 $location.path("addressBook");
             }
         })
         .add({
-            combo:'i',
+            combo: 'i',
             description: 'Inbox',
-            callback: function() {
+            callback: function () {
                 $location.path("inbox");
             }
         });
@@ -151,19 +182,21 @@ app.controller('bitmessageController', function (authentication, $q, $location, 
     authentication.onStateChange(refresh);
     $interval(refresh, 5000);
 
-    $scope.isAuthenticated = function() {
+    $scope.isAuthenticated = function () {
         return authentication.isAuthenticated();
     };
 
-    $scope.getUsername = function() {
+    $scope.getUsername = function () {
         return authentication.getUsername();
     };
 
-    $scope.unreadCount = function() {
-        return _.filter($scope.messages, function(m){ return m.read === 0;}).length;
+    $scope.unreadCount = function () {
+        return _.filter($scope.messages, function (m) {
+            return m.read === 0;
+        }).length;
     };
 
-    $scope.logout = function() {
+    $scope.logout = function () {
         authentication.logout();
     };
 

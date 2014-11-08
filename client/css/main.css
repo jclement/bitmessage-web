@@ -1,26 +1,27 @@
-/*body {
-  padding-top: 70px;
-}
-
-@media (max-width: 800px) {
-  body {
-    padding-top: 70px;
-  }
-
-  .navbar {
-     padding-top: 15px;
-  }
-}
-/*
-
-img.img-center {
-    margin: 0 auto;
-}
-
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
-*/
+
+.panel-button-bar {
+    float: right !important;
+    padding-top: 10px;
+    padding-right: 10px;
+
+}
+.panel-button-bar a {
+    width: 50px;
+    background-image: -webkit-linear-gradient(#54b4eb, #2fa4e7 60%, #1d9ce5);
+    color: #f5f5f5;
+}
+
+.panel-button-bar-sm a {
+    width: 35px;
+}
+
+.panel-button-bar a:hover {
+    background-image: -webkit-linear-gradient(#54b4eb, #2fa4e7 60%, #1d9ce5);
+    color: white;
+}
 
 .nowrap {
   white-space: nowrap !important;

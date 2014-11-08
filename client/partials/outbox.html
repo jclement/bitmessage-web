@@ -1,7 +1,7 @@
-<h1>Sent Messages</h1>
+<h1>Outbox</h1>
 
-<div class="alert alert-info" ng-show="sentMessages.length === 0">No messages in Sent</div>
-<div class="table-responsive" ng-show="sentMessages.length > 0">
+<div class="alert alert-info" ng-show="outboxMessages.length === 0">No messages in Outbox</div>
+<div class="table-responsive" ng-show="outboxMessages.length > 0">
     <table class="table table-condensed table-striped">
         <thead>
         <tr>
@@ -13,7 +13,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="message in sentMessages | orderBy: receivedTime : reverse">
+        <tr ng-repeat="message in outboxMessages | orderBy: receivedTime : reverse">
             <td>{{message.subject}}</td>
             <td class="nowrap"><a href="#/compose/to/{{message.fromAddress}}">{{message.fromAddressDisplay}}</a></td>
             <td class="nowrap"><a href="#/compose/to/{{message.toAddress}}">{{message.toAddressDisplay}}</a></td>
