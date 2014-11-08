@@ -23,7 +23,7 @@
         <tbody>
         <tr ng-repeat="identity in identities | orderBy:'label'">
             <td>{{identity.label}}</td>
-            <td class="nowrap">{{identity.address}}</td>
+            <td class="nowrap"><a href="#/compose/to/{{identity.address}}">{{identity.address}}</a></td>
             <td>
                 <span ng-show="!identity.enabled" class="label label-danger">in-active</span>
                 <span ng-show="identity.enabled" class="label label-success">active</span>

@@ -54,6 +54,9 @@ app.controller('ComposeController', function (authentication, $q, $notify, $http
         var lookupRecipient = function (id) {
             var address = _.findWhere($scope.addressbook, {address: id});
             if (!address) {
+                address = _.findWhere($scope.identities, {address: id});
+            }
+            if (!address) {
                 // unknown recipient, assign address to placeholder entry
                 $scope.addressbook[0].address = id;
                 address = $scope.addressbook[0];
