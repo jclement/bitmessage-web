@@ -24,7 +24,6 @@ app.controller('ComposeController', function (authentication, $q, $notify, $http
 
     $scope.addressbook = [];
     $scope.identities = [];
-    $scope.sending = false;
     $scope.data = {};
 
     var type = $routeParams.type;
