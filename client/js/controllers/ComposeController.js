@@ -1,4 +1,6 @@
 app.filter('add_search_entry', function () {
+    // update placeholder entry with address if search string looks like a valid BM address
+    // otherwise filters it out of result set.
     return function (items, search) {
         if (search) {
             if (items.length > 0 && items[0].search) {
@@ -11,12 +13,14 @@ app.filter('add_search_entry', function () {
                 }
             }
         }
-        return _.filter(items, function(f) {return f.address;});
+        return _.filter(items, function (f) {
+            return f.address;
+        });
     }
 });
 
 
-app.controller('ComposeController', function (authentication, $notify, $http, $location, $scope, $routeParams) {
+app.controller('ComposeController', function (authentication, $q, $notify, $http, $location, $scope, $routeParams) {
 
     $scope.addressbook = [];
     $scope.identities = [];
@@ -26,62 +30,51 @@ app.controller('ComposeController', function (authentication, $notify, $http, $l
     var type = $routeParams.type;
     var id = $routeParams.id;
 
-    if (type === 'to') {
-        $scope.data.toAddress = {'label': id, 'address': id};
-    }
-
+    var fetchPromises = [];
+    fetchPromises.push($http.post('api/bm/addressbook/list', {token: authentication.getToken()}));
+    fetchPromises.push($http.post('api/bm/addresses/list', {token: authentication.getToken(), enabledOnly: true}));
     if (type === 'reply') {
-        $http.post('api/bm/messages/inbox/read', {
+        fetchPromises.push($http.post('api/bm/messages/inbox/read', {
             token: authentication.getToken(),
             id: id,
             markRead: false
-        })
-            .success(function (data) {
-                $scope.data.toAddress = {'label': data.fromAddress, 'address': data.fromAddress};
-                $scope.data.fromAddress = {'label': data.toAddress, 'address': data.toAddress};
-                $scope.data.subject = data.subject;
-                $scope.data.message = '\n\n------------------------------------------------------\n' + data.message;
-            });
+        }));
     }
 
-    $http.post('api/bm/addressbook/list', {token: authentication.getToken()})
-        .success(function (data) {
-            $scope.addressbook = [{search: true, label: 'Unknown'}].concat(data);
+    $q.all(fetchPromises).then(function (data) {
 
-            if ($scope.data.toAddress) {
-                // after loading identities, see if we have a from address and rewrite the label if we do
-                var found = false;
-                _.each($scope.addressbook, function (i) {
-                    if (i.address === $scope.data.toAddress.address) {
-                        $scope.data.toAddress = i;
-                        found = true;
-                    }
-                });
-                if (!found) {
-                    $scope.addressbook[0].address = $scope.data.toAddress.address;
-                    $scope.data.toAddress = $scope.addressbook[0];
-                }
+        // Pull active identities
+        $scope.identities = data[1].data;
+
+        // pull addressbook in sorted order.  Inject placeholder for address queries that
+        // don't match an addressbook entry
+        $scope.addressbook = [{search: true, label: 'Unknown'}].concat(data[0].data);
+
+        // Lookup recipient address in addressbook.  Use ab entry if we have it and placeholder otherwise
+        var lookupRecipient = function (id) {
+            var address = _.findWhere($scope.addressbook, {address: id});
+            if (!address) {
+                // unknown recipient, assign address to placeholder entry
+                $scope.addressbook[0].address = id;
+                address = $scope.addressbook[0];
             }
+            return address;
+        }
 
-        });
+        // handle composeTo
+        if (type === 'to') {
+            $scope.data.toAddress = lookupRecipient(id);
+        }
 
-    $http.post('api/bm/addresses/list', {token: authentication.getToken()})
-        .success(function (data) {
-            $scope.identities = _.chain(data).filter(function (i) {
-                return i.enabled;
-            }).sortBy(function (i) {
-                return i.label.toUpperCase();
-            }).value();
-
-            if ($scope.data.fromAddress) {
-                // after loading identities, see if we have a from address and rewrite the label if we do
-                _.each($scope.identities, function (i) {
-                    if (i.address === $scope.data.fromAddress.address) {
-                        $scope.data.fromAddress = i;
-                    }
-                })
-            }
-        });
+        // handle replyTo
+        if (type === 'reply') {
+            var replyData = data[2].data;
+            $scope.data.toAddress = lookupRecipient(replyData.fromAddress);
+            $scope.data.fromAddress = _.findWhere($scope.identities, {address: replyData.toAddress});
+            $scope.data.subject = replyData.subject;
+            $scope.data.message = '\n\n------------------------------------------------------\n' + replyData.message;
+        }
+    });
 
     $scope.send = function () {
         $http.post('api/bm/messages/send', {

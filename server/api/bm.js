@@ -156,15 +156,22 @@ router.post('/messages/inbox/read', function (req, res) {
         });
 });
 
+var sortAddresses = function(addresses) {
+    return _.sortBy(addresses, function(a) {return a.label.toUpperCase();});
+}
+
 router.post('/addresses/list', function (req, res) {
     bm.addresses.list(function (value) {
-        res.json(value);
+        if (req.body.enabledOnly) {
+            return res.json(sortAddresses(_.filter(value, function(a) {return a.enabled;})));
+        }
+        res.json(sortAddresses(value));
     });
 });
 
 router.post('/addressbook/list', function (req, res) {
     bm.addressbook.list(function (value) {
-        res.json(value);
+        res.json(sortAddresses(value));
     });
 });
 
