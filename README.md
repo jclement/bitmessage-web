@@ -7,7 +7,7 @@ I love the idea of Bitmessage.  Unfortunately, it requires a fairly heavy-weight
 It runs entirely on hardware you control and can be access with any number of devices (phones, tablets, etc).
 
 Currently, no support for subscriptions.
- 
+
 ## Requirements
 * NodeJS
 * Bower
@@ -44,3 +44,12 @@ $ node server/app.js
 
 * bitmessage-web should be run on the same machine as bitmessage or through an SSH tunnel!
 * If accessing bitmessage-web remotely (from phone for example) you really should run through SSL or you defeat the whole point.  Install NGINX / Apache on the same machine and proxy requests through to bitmessage-web.
+
+## Future updates:
+
+```
+$ cd bitmessage-web
+$ git pull
+$ bower update
+$ npm update
+```
