@@ -17,9 +17,9 @@ app.config(function ($routeProvider) {
         templateUrl: 'partials/about.html',
         public: true // pages are secure by default.  public pages can be tagged in this way.
     });
-    $routeProvider.when('/sent', {
-        controller: 'SentController',
-        templateUrl: 'partials/sent.html'
+    $routeProvider.when('/outbox', {
+        controller: 'OutboxController',
+        templateUrl: 'partials/outbox.html'
     });
     $routeProvider.when('/compose', {
         controller: 'ComposeController',

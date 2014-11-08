@@ -57,7 +57,7 @@ router.post('/messages/inbox/list', function (req, res) {
         });
 });
 
-router.post('/messages/sent/list', function (req, res) {
+router.post('/messages/outbox/list', function (req, res) {
 
     var messagesDeferred = q.defer();
     bm.messages.sent.list(function (value) {
@@ -95,11 +95,14 @@ router.post('/messages/sent/list', function (req, res) {
                 }
                 return displayAddress || address;
             };
-            _.each(messages, function(message) {
+            res.json(_.chain(messages).filter(function(message) {
+                return message.status !== 'ackreceived' &&
+                    message.status !== 'msgsentnoackexpected';
+            }).each(function(message) {
                 message.fromAddressDisplay = l(message.fromAddress);
                 message.toAddressDisplay = l(message.toAddress);
-            });
-            res.json(messages);
+            }).value());
+
         });
 });
 

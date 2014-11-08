@@ -38,8 +38,8 @@
                 <li><a href="#/compose" ng-show="isAuthenticated()" title="Compose"><span
                         class="glyphicon glyphicon-send"></span> Compose</a>
                 </li>
-                <li><a href="#/sent" ng-show="isAuthenticated()" title="Sent"><span
-                        class="glyphicon glyphicon-book"></span> Sent</a>
+                <li><a href="#/outbox" ng-show="isAuthenticated()" title="Outbox"><span
+                        class="glyphicon glyphicon-book"></span> Outbox</a>
                 </li>
                 <li><a href="#/addressBook" ng-show="isAuthenticated()" title="Address Book"><span
                         class="glyphicon glyphicon-book"></span> Address Book</a>
@@ -66,7 +66,7 @@
     <div class="btn-group">
         <a class="btn btn-sm btn-default" href="#/compose" ng-show="isAuthenticated()" title="Compose"><span
                 class="glyphicon glyphicon-send"></span></a>
-        <a class="btn btn-sm btn-default" href="#/sent" ng-show="isAuthenticated()" title="Sent"><span
+        <a class="btn btn-sm btn-default" href="#/outbox" ng-show="isAuthenticated()" title="Outbox"><span
                 class="glyphicon glyphicon-book"></span></a>
     </div>
     <div class="btn-group">
@@ -99,7 +99,7 @@
 <script src="js/controllers/AddressBookController.js"></script>
 <script src="js/controllers/LoginController.js"></script>
 <script src="js/controllers/IdentitiesController.js"></script>
-<script src="js/controllers/SentController.js"></script>
+<script src="js/controllers/OutboxController.js"></script>
 <script src="js/controllers/InboxController.js"></script>
 <script src="js/controllers/ViewController.js"></script>
 </body>
