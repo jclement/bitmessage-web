@@ -7,8 +7,9 @@
 
         <div class="col-sm-10">
             <ui-select required ng-model="data.fromAddress" theme="bootstrap" ng-disabled="disabled">
-                <ui-select-match placeholder="Select or enter an address">{{$select.selected.label}} (<small>{{$select.selected.address}}</small>)</ui-select-match>
+                <ui-select-match placeholder="Select or enter an address"><img class="avatar" src="api/avatar/{{$select.selected.address}}"/>{{$select.selected.label}} (<small>{{$select.selected.address}}</small>)</ui-select-match>
                 <ui-select-choices repeat="entry in identities | filter: $select.search">
+                    <img class="avatar" src="api/avatar/{{entry.address}}"/>
                     <span ng-bind-html="entry.label | highlight: $select.search"></span>
                     (<small ng-bind-html="entry.address | highlight: $select.search"></small>)
                 </ui-select-choices>
@@ -21,8 +22,9 @@
 
         <div class="col-sm-10">
             <ui-select required ng-model="data.toAddress" theme="bootstrap" ng-disabled="disabled">
-                <ui-select-match placeholder="Select or enter an address">{{$select.selected.label}} (<small>{{$select.selected.address}}</small>)</ui-select-match>
+                <ui-select-match placeholder="Select or enter an address"><img class="avatar" src="api/avatar/{{$select.selected.address}}"/>{{$select.selected.label}} (<small>{{$select.selected.address}}</small>)</ui-select-match>
                 <ui-select-choices repeat="entry in addressbook | add_search_entry: $select.search | filter: $select.search">
+                    <img class="avatar" src="api/avatar/{{entry.address}}"/>
                     <span ng-bind-html="entry.label | highlight: $select.search"></span>
                     (<small ng-bind-html="entry.address | highlight: $select.search"></small>)
                 </ui-select-choices>

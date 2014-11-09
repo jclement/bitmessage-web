@@ -21,8 +21,8 @@
                    ng-click="openMessage(message)">Open</a>
             </td>
             <td>{{message.subject}}</td>
-            <td class="nowrap"><a href="#/compose/to/{{message.fromAddress}}">{{message.fromAddressDisplay}}</a></td>
-            <td class="nowrap"><a href="#/compose/to/{{message.toAddress}}">{{message.toAddressDisplay}}</a></td>
+            <td class="nowrap"><a href="#/compose/to/{{message.fromAddress}}"><img class="avatar" src="api/avatar/{{message.fromAddress}}"/>{{message.fromAddressDisplay}}</a></td>
+            <td class="nowrap"><a href="#/compose/to/{{message.toAddress}}"><img class="avatar" src="api/avatar/{{message.toAddress}}"/>{{message.toAddressDisplay}}</a></td>
             <td class="nowrap">{{message.receivedTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
             <td>
                 <a class="pull-right btn btn-xs btn-danger"

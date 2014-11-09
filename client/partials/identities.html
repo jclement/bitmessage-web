@@ -22,7 +22,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="identity in identities | orderBy:'label'">
-            <td>{{identity.label}}</td>
+            <td><img class="avatar" src="api/avatar/{{identity.address}}"/>{{identity.label}}</td>
             <td class="nowrap"><a href="#/compose/to/{{identity.address}}">{{identity.address}}</a></td>
             <td>
                 <span ng-show="!identity.enabled" class="label label-danger">in-active</span>

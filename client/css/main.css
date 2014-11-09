@@ -1,5 +1,5 @@
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none !important;
+    display: none !important;
 }
 
 .panel-button-bar {
@@ -8,6 +8,7 @@
     padding-right: 10px;
 
 }
+
 .panel-button-bar a {
     width: 50px;
     background-image: -webkit-linear-gradient(#54b4eb, #2fa4e7 60%, #1d9ce5);
@@ -24,5 +25,10 @@
 }
 
 .nowrap {
-  white-space: nowrap !important;
+    white-space: nowrap !important;
+}
+
+img.avatar {
+    margin-top: -8px;
+    padding-right: 2px;
 }

@@ -24,7 +24,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="entry in addressbook | orderBy:'label'">
-            <td>{{entry.label}}</td>
+            <td><img class="avatar" src="api/avatar/{{entry.address}}"/>{{entry.label}}</td>
             <td class="nowrap"><a href="#/compose/to/{{entry.address}}">{{entry.address}}</a></td>
             <td>
                 <button ng-click="deleteEntry(entry)" class="btn btn-xs btn-danger">Delete</button>

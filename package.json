@@ -16,6 +16,7 @@
         "jwt-simple": "*",
         "request": "*",
         "q": "*",
+        "node-uuid": "*",
         "bitmessage-node":"*"
     }
 }
