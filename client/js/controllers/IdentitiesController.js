@@ -5,7 +5,7 @@ app.controller('IdentitiesController', function (authentication, $http, $locatio
 
     $http.post('api/bm/addresses/list', {token: authentication.getToken()})
         .success(function (data) {
-            $scope.identities = data;
+            $scope.identities = _.filter(data, function(i) {return i.enabled;});
         });
 
     $scope.newIdentity = function (label) {
